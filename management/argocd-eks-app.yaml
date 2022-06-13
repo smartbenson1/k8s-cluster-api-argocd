@@ -8,7 +8,7 @@ spec:
     namespace: 'eks'
     server: 'https://kubernetes.default.svc'
   source:
-    path: capi-cluster/aws-eks
+    path: 'capi-cluster/aws-eks'
     repoURL: 'https://github.com/smartbenson1/k8s-cluster-api-argocd.git'
     targetRevision: HEAD
     #helm:
