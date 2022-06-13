@@ -4,8 +4,8 @@ metadata:
   name: ec2-cluster
 spec:
   destination:
-    name: 'ec2-cluster'
-    namespace: 'ec2'
+    name: ''
+    namespace: ''
     server: 'https://kubernetes.default.svc'
   source:
     path: capi-cluster/aws-ec2
@@ -18,3 +18,4 @@ spec:
   syncPolicy:
     automated:
       prune: true
+      allowEmpty: true

@@ -24,7 +24,7 @@ metadata:
   namespace: default
 spec:
   region: ap-east-1
-  sshKeyName: capi
+  sshKeyName: hklaunch
 ---
 apiVersion: controlplane.cluster.x-k8s.io/v1beta1
 kind: KubeadmControlPlane
@@ -68,7 +68,7 @@ spec:
     spec:
       iamInstanceProfile: control-plane.cluster-api-provider-aws.sigs.k8s.io
       instanceType: m5.large
-      sshKeyName: capi
+      sshKeyName: hklaunch
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
@@ -103,8 +103,8 @@ spec:
   template:
     spec:
       iamInstanceProfile: nodes.cluster-api-provider-aws.sigs.k8s.io
-      instanceType: t3.medium
-      sshKeyName: capi
+      instanceType: m5.large
+      sshKeyName: hklaunch
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: KubeadmConfigTemplate
