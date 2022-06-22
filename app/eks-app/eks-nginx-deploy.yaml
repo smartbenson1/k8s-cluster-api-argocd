@@ -6,7 +6,7 @@ spec:
   destination:
     name: ''
     namespace: ''
-    server: 'https://8CBF9C41B09EF107829877FA6D30AE04.sk1.ap-southeast-2.eks.amazonaws.com'
+    server: 'https://AA75EFD01A126DD3B250D5DFCF6B1D12.gr7.ap-southeast-2.eks.amazonaws.com'
   source:
     path: workload/aws-eks
     repoURL: 'https://github.com/smartbenson1/k8s-cluster-api-argocd.git' #Indicate which source repo for fetching the cluster configuration
