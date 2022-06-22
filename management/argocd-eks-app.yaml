@@ -5,7 +5,7 @@ metadata:
 spec:
   destination:
     name: ''
-    namespace: 'eks'
+    namespace: 'default'
     server: 'https://kubernetes.default.svc'
   source:
     path: 'capi-cluster/aws-eks'

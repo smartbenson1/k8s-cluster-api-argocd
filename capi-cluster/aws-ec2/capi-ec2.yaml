@@ -1,38 +1,46 @@
+---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
 metadata:
-  name: capi-ec2
-  namespace: default
+  name: "capi-ec2"
 spec:
   clusterNetwork:
     pods:
-      cidrBlocks:
-      - 192.168.0.0/16
-  controlPlaneRef:
-    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
-    kind: KubeadmControlPlane
-    name: capi-ec2-control-plane
+      cidrBlocks: ["192.168.0.0/16"]
   infrastructureRef:
     apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
     kind: AWSCluster
-    name: capi-ec2
+    name: "capi-ec2"
+  controlPlaneRef:
+    kind: KubeadmControlPlane
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    name: "capi-ec2-control-plane"
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AWSCluster
 metadata:
-  name: capi-ec2
-  namespace: default
+  name: "capi-ec2"
 spec:
-  region: ap-east-1
-  sshKeyName: hklaunch
+  region: "us-east-1"
+  sshKeyName: "capi-ec2"
 ---
-apiVersion: controlplane.cluster.x-k8s.io/v1beta1
 kind: KubeadmControlPlane
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
 metadata:
-  name: capi-ec2-control-plane
-  namespace: default
+  name: "capi-ec2-control-plane"
 spec:
+  replicas: 3
+  machineTemplate:
+    infrastructureRef:
+      kind: AWSMachineTemplate
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+      name: "capi-ec2-control-plane"
   kubeadmConfigSpec:
+    initConfiguration:
+      nodeRegistration:
+        name: '{{ ds.meta_data.local_hostname }}'
+        kubeletExtraArgs:
+          cloud-provider: aws
     clusterConfiguration:
       apiServer:
         extraArgs:
@@ -40,82 +48,67 @@ spec:
       controllerManager:
         extraArgs:
           cloud-provider: aws
-    initConfiguration:
-      nodeRegistration:
-        kubeletExtraArgs:
-          cloud-provider: aws
-        name: '{{ ds.meta_data.local_hostname }}'
     joinConfiguration:
       nodeRegistration:
+        name: '{{ ds.meta_data.local_hostname }}'
         kubeletExtraArgs:
           cloud-provider: aws
-        name: '{{ ds.meta_data.local_hostname }}'
-  machineTemplate:
-    infrastructureRef:
-      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
-      kind: AWSMachineTemplate
-      name: capi-ec2-control-plane
-  replicas: 1
-  version: v1.22.6
+  version: "1.24.0"
 ---
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AWSMachineTemplate
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 metadata:
-  name: capi-ec2-control-plane
-  namespace: default
+  name: "capi-ec2-control-plane"
 spec:
   template:
     spec:
-      iamInstanceProfile: control-plane.cluster-api-provider-aws.sigs.k8s.io
-      instanceType: m5.large
-      sshKeyName: hklaunch
+      instanceType: "t3.large"
+      iamInstanceProfile: "control-plane.cluster-api-provider-aws.sigs.k8s.io"
+      sshKeyName: "capi-ec2"
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
 metadata:
-  name: capi-ec2-md-0
-  namespace: default
+  name: "capi-ec2-md-0"
 spec:
-  clusterName: capi-ec2
-  replicas: 1
+  clusterName: "capi-ec2"
+  replicas: 3
   selector:
-    matchLabels: null
+    matchLabels:
   template:
     spec:
+      clusterName: "capi-ec2"
+      version: "1.24.0"
       bootstrap:
         configRef:
+          name: "capi-ec2-md-0"
           apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
           kind: KubeadmConfigTemplate
-          name: capi-ec2-md-0
-      clusterName: capi-ec2
       infrastructureRef:
+        name: "capi-ec2-md-0"
         apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
         kind: AWSMachineTemplate
-        name: capi-ec2-md-0
-      version: v1.22.6
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AWSMachineTemplate
 metadata:
-  name: capi-ec2-md-0
-  namespace: default
+  name: "capi-ec2-md-0"
 spec:
   template:
     spec:
-      iamInstanceProfile: nodes.cluster-api-provider-aws.sigs.k8s.io
-      instanceType: m5.large
-      sshKeyName: hklaunch
+      instanceType: "t3.large"
+      iamInstanceProfile: "nodes.cluster-api-provider-aws.sigs.k8s.io"
+      sshKeyName: "capi-ec2"
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: KubeadmConfigTemplate
 metadata:
-  name: capi-ec2-md-0
-  namespace: default
+  name: "capi-ec2-md-0"
 spec:
   template:
     spec:
       joinConfiguration:
         nodeRegistration:
+          name: '{{ ds.meta_data.local_hostname }}'
           kubeletExtraArgs:
             cloud-provider: aws
-          name: '{{ ds.meta_data.local_hostname }}'
