@@ -23,7 +23,11 @@ metadata:
   name: capi-ec2
   namespace: default
 spec:
+<<<<<<< HEAD:capi-cluster/aws-ec2/aws-ec2.yaml
   region: us-east-1
+=======
+  region: "us-east-1"
+>>>>>>> 94bc616e1417f5d180b9e361362694d24dd7073d:capi-cluster/aws-ec2/capi-ec2.yaml
   sshKeyName: capi-ec2
 ---
 apiVersion: controlplane.cluster.x-k8s.io/v1beta1
@@ -66,8 +70,13 @@ metadata:
 spec:
   template:
     spec:
+<<<<<<< HEAD:capi-cluster/aws-ec2/aws-ec2.yaml
       iamInstanceProfile: control-plane.cluster-api-provider-aws.sigs.k8s.io
       instanceType: t3.large
+=======
+      instanceType: "t3.large"
+      iamInstanceProfile: "control-plane.cluster-api-provider-aws.sigs.k8s.io"
+>>>>>>> 94bc616e1417f5d180b9e361362694d24dd7073d:capi-cluster/aws-ec2/capi-ec2.yaml
       sshKeyName: capi-ec2
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
@@ -102,8 +111,13 @@ metadata:
 spec:
   template:
     spec:
+<<<<<<< HEAD:capi-cluster/aws-ec2/aws-ec2.yaml
       iamInstanceProfile: nodes.cluster-api-provider-aws.sigs.k8s.io
       instanceType: t3.large
+=======
+      instanceType: "t3.large"
+      iamInstanceProfile: "nodes.cluster-api-provider-aws.sigs.k8s.io"
+>>>>>>> 94bc616e1417f5d180b9e361362694d24dd7073d:capi-cluster/aws-ec2/capi-ec2.yaml
       sshKeyName: capi-ec2
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
