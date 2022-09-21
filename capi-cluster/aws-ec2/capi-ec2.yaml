@@ -22,7 +22,7 @@ metadata:
   name: "capi-ec2"
 spec:
   region: "us-east-1"
-  sshKeyName: "capi-ec2"
+  sshKeyName: capi-ec2
 ---
 kind: KubeadmControlPlane
 apiVersion: controlplane.cluster.x-k8s.io/v1beta1
@@ -64,7 +64,7 @@ spec:
     spec:
       instanceType: "t3.large"
       iamInstanceProfile: "control-plane.cluster-api-provider-aws.sigs.k8s.io"
-      sshKeyName: "capi-ec2"
+      sshKeyName: capi-ec2
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
@@ -98,7 +98,7 @@ spec:
     spec:
       instanceType: "t3.large"
       iamInstanceProfile: "nodes.cluster-api-provider-aws.sigs.k8s.io"
-      sshKeyName: "capi-ec2"
+      sshKeyName: capi-ec2
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: KubeadmConfigTemplate
