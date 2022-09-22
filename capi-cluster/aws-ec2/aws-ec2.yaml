@@ -56,7 +56,7 @@ spec:
       kind: AWSMachineTemplate
       name: capi-ec2-control-plane
   replicas: 3
-  version: v1.24.0
+  version: v1.25.0
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AWSMachineTemplate
@@ -92,7 +92,7 @@ spec:
         apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
         kind: AWSMachineTemplate
         name: capi-ec2-md-0
-      version: v1.24.0
+      version: v1.25.0
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AWSMachineTemplate
